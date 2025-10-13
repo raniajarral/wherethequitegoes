@@ -1,0 +1,301 @@
+/* Reset and base styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Times New Roman', serif;
+  line-height: 1.6;
+}
+
+/* Hero Image Styles */
+.hero-image-container {
+  width: 100vw;
+  position: relative;
+  overflow: hidden;
+  margin: 0 0 4rem 0;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+}
+
+.hero-image {
+  width: 100%;
+  height: auto;
+  display: block;
+  margin: 0;
+}
+
+/* Sticky Header Styles */
+.main-header {
+  position: fixed;
+  top: -80px;
+  left: 0;
+  right: 0;
+  width: 100%;
+  padding: 1rem 2rem;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+  opacity: 0;
+}
+
+.main-header.visible {
+  transform: translateY(80px);
+  opacity: 1;
+}
+
+.essay-title {
+  font-family: 'Times New Roman', serif;
+  font-size: 1.8rem;
+  font-weight: normal;
+  color: #2c3e50;
+  margin: 0;
+  letter-spacing: 1px;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Image Containers - Full Width */
+.image-container {
+  width: 100vw;
+  position: relative;
+  left: 50%;
+  right: 50%;
+  margin-left: -50vw;
+  margin-right: -50vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  margin-top: 3rem;
+  margin-bottom: 3rem;
+  background: none;
+  border: none;
+}
+
+/* Remove loading placeholder text */
+.image-container::before {
+  display: none;
+}
+
+/* Full Width Image with Natural Height */
+.scroll-image {
+  width: 100%;
+  height: auto;
+  max-width: none;
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 1.5s ease, transform 1.5s ease;
+  object-fit: contain;
+  border-radius: 0;
+  box-shadow: none;
+  display: block;
+}
+
+/* Initial hidden state */
+.image-container:not(.revealed) .scroll-image {
+  opacity: 0;
+  transform: translateY(50px);
+}
+
+/* Revealed state - stays visible */
+.image-container.revealed .scroll-image {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Optional fade-in for caption */
+.image-caption {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 1s ease 0.5s, transform 1s ease 0.5s;
+  font-style: italic;
+  color: #555;
+  margin-top: 1rem;
+  text-align: center;
+  max-width: 700px;
+}
+
+.image-container.revealed .image-caption {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Add some breathing room between essay sections and images */
+.content-section {
+  padding-bottom: 2rem;
+  padding-top: 2rem;
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+  .essay-title {
+    font-size: 1.4rem;
+    letter-spacing: 0.5px;
+  }
+  
+  .main-header {
+    padding: 0.8rem 1rem;
+  }
+  
+  .scroll-image {
+    height: auto;
+  }
+  
+  .image-caption {
+    font-size: 0.95rem;
+    line-height: 1.4;
+    padding: 0 1rem;
+  }
+}
+
+/* Desktop adjustments */
+@media (min-width: 1200px) {
+  .essay-title {
+    font-size: 2rem;
+  }
+  
+  .main-header {
+    padding: 1.2rem 2rem;
+  }
+}
+
+/* Main essay content container */
+.essay {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 0 2rem;
+}
+
+/* Story sections with spacing */
+.story-section {
+  margin: 3rem 0;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 1.2s ease, transform 1.2s ease;
+}
+
+.story-section.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.story-section p {
+  font-size: 1.1rem;
+  line-height: 1.7;
+  color: #333;
+  margin-bottom: 1.5rem;
+  text-align: justify;
+}
+
+/* End separator for credits section */
+.end-separator {
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(to right, transparent, #333, transparent);
+  margin: 4rem 0 1.5rem 0;
+  opacity: 0.6;
+}
+
+/* Credits section with framed design */
+.credits-section {
+  display: flex;
+  justify-content: center;
+  padding: 1rem 1rem;
+  margin-bottom: 3rem;
+}
+
+.credits-frame {
+  border: 3px solid #333;
+  border-radius: 12px;
+  padding: 2rem;
+  background: #fafafa;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  max-width: 400px;
+  width: 100%;
+}
+
+.credits-title {
+  font-family: 'Times New Roman', serif;
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #333;
+  margin: 0 0 1.5rem 0;
+  letter-spacing: 2px;
+}
+
+.credits-image-placeholder {
+  width: 100%;
+  height: 200px;
+  border: 2px dashed #666;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f0f0f0;
+  position: relative;
+  overflow: hidden;
+}
+
+.credits-image {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 6px;
+}
+
+/* If no image is loaded, show placeholder text */
+.credits-image-placeholder::before {
+  content: 'Group Photo Placeholder';
+  color: #666;
+  font-style: italic;
+  font-size: 0.9rem;
+  position: absolute;
+  z-index: 1;
+}
+
+.credits-image-placeholder:has(.credits-image)::before {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .essay {
+    padding: 0 1rem;
+  }
+  
+  .story-section {
+    margin: 2rem 0;
+  }
+  
+  .story-section p {
+    font-size: 1rem;
+    line-height: 1.6;
+    text-align: left;
+  }
+  
+  .credits-frame {
+    padding: 1.5rem;
+    border-width: 2px;
+  }
+  
+  .credits-title {
+    font-size: 1.5rem;
+    letter-spacing: 1px;
+  }
+  
+  .credits-image-placeholder {
+    height: 150px;
+  }
+}
