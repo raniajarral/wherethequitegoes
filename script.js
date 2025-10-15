@@ -378,4 +378,22 @@ function initMemberSlideshow() {
     
     // Start with first member (Rania)
     showMember(0);
+
+    // Auto-resize essay title to always fit in one line
+document.addEventListener('DOMContentLoaded', function() {
+  const title = document.querySelector('.essay-title');
+  if (!title) return;
+
+  function resizeTitle() {
+    const parentWidth = title.parentElement.offsetWidth;
+    title.style.fontSize = '3rem'; // reset to default max first
+    while (title.scrollWidth > parentWidth && parseFloat(getComputedStyle(title).fontSize) > 10) {
+      title.style.fontSize = (parseFloat(getComputedStyle(title).fontSize) - 1) + 'px';
+    }
+  }
+
+  window.addEventListener('resize', resizeTitle);
+  resizeTitle();
+});
+
 }
