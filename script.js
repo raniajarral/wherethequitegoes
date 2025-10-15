@@ -194,6 +194,12 @@ function initHorizontalGallery() {
     
     // Text overlay scroll effect
     initTextOverlayEffect();
+    
+    // Initialize highlight animations
+    initHighlightAnimations();
+    
+    // Initialize member slideshow
+    initMemberSlideshow();
 }
 
 // Text overlay scroll effect
@@ -275,3 +281,101 @@ window.addEventListener('orientationchange', function() {
         }
     }, 100);
 });
+
+// Highlight text animations
+function initHighlightAnimations() {
+    const highlightElements = document.querySelectorAll('.highlight-text');
+    
+    if (highlightElements.length === 0) return;
+    
+    // Create intersection observer for highlights
+    const highlightObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const element = entry.target;
+                const delay = parseInt(element.getAttribute('data-delay')) || 0;
+                
+                // Trigger highlight animation with minimal delay
+                setTimeout(() => {
+                    element.classList.add('active');
+                    console.log('Highlighting:', element.textContent);
+                }, delay * 200); // 200ms between each highlight (much faster)
+                
+                // Don't observe this element anymore
+                highlightObserver.unobserve(element);
+            }
+        });
+    }, {
+        threshold: 0.5,
+        rootMargin: '0px 0px -50px 0px'
+    });
+    
+    // Observe all highlight elements
+    highlightElements.forEach(element => {
+        highlightObserver.observe(element);
+    });
+    
+    console.log('Highlight animations initialized for', highlightElements.length, 'elements');
+}
+
+// Member slideshow functionality - simple slideshow for 5 members
+function initMemberSlideshow() {
+    let currentMember = 0;
+    
+    const track = document.querySelector('.member-photos-track');
+    const dots = document.querySelectorAll('.member-dot');
+    
+    if (!track || dots.length !== 5) return;
+    
+    function showMember(index) {
+        currentMember = index;
+        
+        // Simple slide with translateX
+        track.style.transform = `translateX(-${currentMember * 100}%)`;
+        
+        // Update dots
+        dots.forEach((dot, i) => {
+            dot.classList.toggle('active', i === currentMember);
+        });
+    }
+    
+    // Dot click handlers - hardcoded for exactly 5 members
+    dots[0].addEventListener('click', () => showMember(0));
+    dots[1].addEventListener('click', () => showMember(1));
+    dots[2].addEventListener('click', () => showMember(2));
+    dots[3].addEventListener('click', () => showMember(3));
+    dots[4].addEventListener('click', () => showMember(4));
+    
+    // Touch/swipe support
+    let startX = 0;
+    let isDragging = false;
+    
+    track.addEventListener('touchstart', (e) => {
+        startX = e.touches[0].clientX;
+        isDragging = true;
+    });
+    
+    track.addEventListener('touchmove', (e) => {
+        if (!isDragging) return;
+        e.preventDefault();
+    });
+    
+    track.addEventListener('touchend', (e) => {
+        if (!isDragging) return;
+        isDragging = false;
+        
+        const endX = e.changedTouches[0].clientX;
+        const diffX = startX - endX;
+        
+        if (Math.abs(diffX) > 50) {
+            if (diffX > 0 && currentMember < 4) {
+                showMember(currentMember + 1);
+            } else if (diffX < 0 && currentMember > 0) {
+                showMember(currentMember - 1);
+            }
+        }
+    });
+    
+    // Start with first member (Rania)
+    showMember(0);
+}
